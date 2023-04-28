@@ -21,12 +21,28 @@ class JobsRelationManager extends RelationManager
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('eqptName')
+                        ->required()
+                        ->label('Equipment Name')
+                        ->maxLength(255),
+                Forms\Components\TextInput::make('serial')
+                        ->required()
+                        ->label('Serial No.')
+                        ->maxLength(255),
+                Forms\Components\TextInput::make('model')
+                        ->required()
+                        ->maxLength(255),
+                Forms\Components\TextInput::make('user_id')
+                        ->default(Auth::user()->id)
+                        ->label('User ID')
+                        ->disabled(),
                 Forms\Components\Textarea::make('summary')
+                    ->label('Summary Of Work Done')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('user_id')
-                    ->default(Auth::user()->id)
-                    ->disabled()
+                Forms\Components\Textarea::make('remarks')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 

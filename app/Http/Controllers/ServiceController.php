@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Job;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
+
     public function index()
     {
         $departments = Department::all();
@@ -26,9 +28,6 @@ class ServiceController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'department' => 'required',
-            'eqptName' => 'required',
-            'serial' => 'required',
-            'model' => 'required',
             'reportedBy' => 'required',
             'telephone' => 'required',
             'designation' => 'required',

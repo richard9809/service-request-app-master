@@ -11,9 +11,6 @@ class Service extends Model
 
     protected $fillable = [
         'department',
-        'eqptName',
-        'serial',
-        'model',
         'reportedBy',
         'telephone',
         'designation',

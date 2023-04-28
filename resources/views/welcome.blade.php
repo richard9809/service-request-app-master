@@ -37,8 +37,8 @@
                 @endif
 
                 <div class="card col-md-6 col-sm-6">
-                    <div class="card-header ">
-                        <h1 class="text-center">SERVICE REQUEST FORM</h1>
+                    <div class="card-header bg-primary">
+                        <h1 class="text-center" style="color: #fff; font-size: 1.75rem;">SERVICE REQUEST FORM</h1>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('store') }}" method="POST">
@@ -53,21 +53,6 @@
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-        
-                                <div class="col-md-6">
-                                    <label for="eqpt" class="form-label">Equipment Name</label>
-                                    <input type="text" name="eqptName" class="form-control" aria-label="Equipment Name" required>
-                                </div>
-        
-                                <div class="col-md-6 mt-2">
-                                    <label for="serial" class="form-label">Serial No.</label>
-                                    <input type="text" name="serial" class="form-control" aria-label="Serial Number" required>
-                                </div>
-        
-                                <div class="col-md-6 mt-2">
-                                    <label for="model" class="form-label">Model</label>
-                                    <input type="text" name="model" class="form-control" aria-label="Model" required>
                                 </div>
         
                                 <div class="col-md-6 mt-2">
@@ -95,7 +80,7 @@
                                     </select>
                                 </div>
         
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="category" class="form-label">Nature of Fault</label>
                                     <select name="fault" id="category" class="form-control" required>
                                         <option selected></option>

@@ -14,7 +14,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-
+use Illuminate\Support\Facades\Auth;
 
 class ServiceResource extends Resource
 {
@@ -29,24 +29,21 @@ class ServiceResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\Select::make('department')
+                    Forms\Components\TextInput::make('department')
+                        ->label('Users Department ID')
                         ->required()
-                        ->options([
-                            Department::pluck('name', 'id')
-                        ])
-                        ->hidden(),
+                        ->default(
+                            Auth::user()->department_id
+                        )
+                        ->disabled(),
+                        // ->options([
+                        //     Department::pluck('name', 'id')
+                        // ]),
                     Forms\Components\TextInput::make('user')
+                        ->label('ICT OFFICER WORK ID')
+                        ->default(Auth::user()->id)
                         ->required()
-                        ->hidden(),
-                    Forms\Components\TextInput::make('eqptName')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('serial')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('model')
-                        ->required()
-                        ->maxLength(255),
+                        ->disabled(),
                     Forms\Components\TextInput::make('reportedBy')
                         ->required()
                         ->maxLength(255),
@@ -63,7 +60,7 @@ class ServiceResource extends Resource
                             'Hardware/Software/Technical' => 'Hardware/Software/Technical',
                             'Networks/Wireless' => 'Networks/Wireless',
                             'Other: Please Specify' => 'Other: Please Specify'
-                        ])->disabled(),
+                        ]),
                     Forms\Components\Textarea::make('description')
                         ->required()
                         ->maxLength(65535),
@@ -76,19 +73,18 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('department')->label('Ministry'),
-                Tables\Columns\TextColumn::make('user')->label('ICT Officer'),
-                Tables\Columns\TextColumn::make('eqptName'),
-                Tables\Columns\TextColumn::make('serial'),
-                Tables\Columns\TextColumn::make('model'),
                 Tables\Columns\TextColumn::make('reportedBy'),
                 Tables\Columns\TextColumn::make('telephone'),
                 Tables\Columns\TextColumn::make('designation'),
                 Tables\Columns\TextColumn::make('fault'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Time Reported')
                     ->sortable()
                     ->dateTime(),
+                Tables\Columns\TextColumn::make('department')->label('Ministry'),
+                Tables\Columns\TextColumn::make('user')->label('ICT Officer'),
+
             ])
             ->filters([
                 //

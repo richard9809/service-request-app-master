@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('eqptName');
+            $table->string('serial');
+            $table->string('model');
             $table->text('summary');
+            $table->text('remarks');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('service_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

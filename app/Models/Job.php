@@ -10,9 +10,13 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
+        'eqptName',
+        'serial',
+        'model',
         'summary',
         'user_id',
-        'service'
+        'service',
+        'remarks'
     ];
 
     public function service()

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Actions\Modal\Actions\Action;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -41,7 +42,19 @@ class JobResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
+                    TextInput::make('eqptName')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('serial')
+                        ->required()
+                        ->maxLength(255),
+                    TextInput::make('model')
+                        ->required()
+                        ->maxLength(255),
                     Textarea::make('summary')
+                        ->required()
+                        ->maxLength(255),
+                    Textarea::make('remarks')
                         ->required()
                         ->maxLength(255),
                     Select::make('service')
@@ -55,7 +68,13 @@ class JobResource extends Resource
 
     public static function downloadPdf($id)
     {
-        $job = Job::findOrFail($id);
+        $job = Job::leftJoin('users', 'jobs.user_id', '=', 'users.id')
+                ->leftJoin('services', 'jobs.service_id', '=', 'services.id')
+                ->leftJoin('departments', 'services.department', '=', 'departments.id')
+                ->select('jobs.*', 'services.reportedBy as reportedBy', 'services.telephone as telephone', 'users.name as ICT')
+                ->findOrFail($id)
+                ->first();
+
         $pdf = PDF::loadView('pdf.job-details', compact('job'));
         return $pdf->download("job-details-{$job->id}.pdf");
     }
@@ -64,9 +83,13 @@ class JobResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')->label('Job No.'),
                 Tables\Columns\TextColumn::make('user')->label('ICT Officer'),
-                Tables\Columns\TextColumn::make('summary'),
                 Tables\Columns\TextColumn::make('reportedBy')->label('Reported By'),
+                Tables\Columns\TextColumn::make('summary'),
+                Tables\Columns\TextColumn::make('eqptName'),
+                Tables\Columns\TextColumn::make('serial'),
+                Tables\Columns\TextColumn::make('model'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->sortable()
                     ->dateTime(),
@@ -82,9 +105,6 @@ class JobResource extends Resource
                         ->icon('heroicon-o-document')
                         ->url(fn (Job $record): string => route('job-pdf', ['job' => $record]))
                         ->openUrlInNewTab()
-                // Action::make('download')
-                //     ->url(fn (Job $record): string => route('job-pdf', $record))
-                //     ->openUrlInNewTab()
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

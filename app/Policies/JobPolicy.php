@@ -37,7 +37,7 @@ class JobPolicy
      */
     public function update(User $user)
     {
-        return $user->hasRole(['Admin', 'System Admin', 'User']);
+        return $user->hasRole(['Admin', 'System Admin']);
     }
 
     /**
