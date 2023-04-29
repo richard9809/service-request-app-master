@@ -3,15 +3,9 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\JobResource\Pages;
-use App\Filament\Resources\JobResource\RelationManagers;
-use App\Filament\Resources\JobResource\RelationManagers\ServicesRelationManager;
-use App\Filament\Resources\ServiceResource\RelationManagers\JobsRelationManager;
 use App\Models\Job;
 use App\Models\Service;
-use App\Models\User;
 use Barryvdh\DomPDF\PDF;
-use Filament\Forms;
-use Filament\Forms\Components\Actions\Modal\Actions\Action;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -20,10 +14,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -66,18 +57,18 @@ class JobResource extends Resource
             ]);
     }
 
-    public static function downloadPdf($id)
-    {
-        $job = Job::leftJoin('users', 'jobs.user_id', '=', 'users.id')
-                ->leftJoin('services', 'jobs.service_id', '=', 'services.id')
-                ->leftJoin('departments', 'services.department', '=', 'departments.id')
-                ->select('jobs.*', 'services.reportedBy as reportedBy', 'services.telephone as telephone', 'users.name as ICT')
-                ->findOrFail($id)
-                ->first();
+    // public static function downloadPdf($id)
+    // {
+    //     $job = Job::leftJoin('users', 'jobs.user_id', '=', 'users.id')
+    //             ->leftJoin('services', 'jobs.service_id', '=', 'services.id')
+    //             ->leftJoin('departments', 'services.department', '=', 'departments.id')
+    //             ->select('jobs.*', 'services.reportedBy as reportedBy', 'services.telephone as telephone', 'users.name as ICT')
+    //             ->findOrFail($id)
+    //             ->first();
 
-        $pdf = PDF::loadView('pdf.job-details', compact('job'));
-        return $pdf->download("job-details-{$job->id}.pdf");
-    }
+    //     $pdf = PDF::loadView('pdf.job-details', compact('job'));
+    //     return $pdf->download("job-details-{$job->id}.pdf");
+    // }
 
     public static function table(Table $table): Table
     {
@@ -104,7 +95,8 @@ class JobResource extends Resource
                 Tables\Actions\Action::make('pdf')
                         ->icon('heroicon-o-document')
                         ->url(fn (Job $record): string => route('job-pdf', ['job' => $record]))
-                        ->openUrlInNewTab()
+                        ->openUrlInNewTab(),
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

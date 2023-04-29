@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document For {{ $job->service->reportedBy }}</title>
 
     <style>
         *{
+            padding-block: 0rem;
             padding-inline: 1rem;
-            margin-block: 0.35rem;
+            margin-block: 0rem;
         }
         header{
             display: grid;
@@ -43,8 +44,8 @@
     <header>
         <h1>COUNTY GOVERNMENT OF KITUI</h1>
         <div class="subheading">
-            <h2 style="text-decoration: underline;">ICT DEPARTMENT</h2>
-            <h3 style="text-decoration: underline;">SERVICE REQUEST FORM</h3>
+            <h2 style="text-decoration: underline;">ICT DEPARTMENT - SERVICE REQUEST FORM</h2>
+            {{-- <h3 style="text-decoration: underline;">SERVICE REQUEST FORM</h3> --}}
         </div>
     </header>
 
@@ -55,27 +56,27 @@
                 <table>
                     <tr>
                         <th>DEPARTMENT</th>
-                        <td>Ministry of LIUD</td>
+                        <td>{{ $job->service->department->name }}</td>
                     </tr>
 
                     <tr>
                         <th>REPORTED BY</th>
-                        <td>{{ $job->reportedBy }}</td>
+                        <td>{{ $job->service->reportedBy }}</td>
                     </tr>
 
                     <tr>
                         <th>MOBILE/TEL. NO</th>
-                        <td>{{ $job->telephone }}</td>
+                        <td>{{ $job->service->telephone }}</td>
                     </tr>
 
                     <tr>
                         <th>DATE OF REQUEST</th>
-                        <td>23-FEB-2023</td>
+                        <td>{{ $job->service->created_at }}</td>
                     </tr>
 
                     <tr>
                         <th>DESIGNATION</th>
-                        <td>SECRETARY</td>
+                        <td>{{ $job->service->designation }}</td>
                     </tr>
                 </table>
             </div>
@@ -105,8 +106,8 @@
         <div class="description" style="padding-block: 0.25rem;">
             <table>
                 <tr>
-                    <th>Hardware/Software/Technical</th>
-                    <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem cumque perferendis quo delectus at veritatis omnis rerum, fugiat aut sunt provident voluptate perspiciatis officia illum? Delectus minus labore quo itaque?</td>
+                    <th>{{ $job->service->fault }}</th>
+                    <td>{{ $job->service->description }}</td>
                 </tr>
             </table>
         </div>
@@ -120,7 +121,7 @@
                 </tr>
                 <tr>
                     <th>JOB ASSIGNED TO</th>
-                    <td>{{ $job->ICT }}</td>
+                    <td>{{ $job->user->name }}</td>
                 </tr>
                 <tr>
                     <th>ASSIGNED DATE/TIME</th>
@@ -141,7 +142,14 @@
 
                 <tr>
                     <th>TOTAL HOURS TAKEN</th>
-                    <td>1 hr</td>
+                    <td>
+                        <?php
+                            $start = $job->created_at;
+                            $end = $job->service->created_at;
+                            $diff = $start->diff($end);
+                            echo $diff->h . ' hours, ' . $diff->i . ' minutes, ' . $diff->s . ' seconds';
+                        ?>
+                    </td>
                 </tr>
             </table>
         </div>

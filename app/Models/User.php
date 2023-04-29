@@ -46,4 +46,9 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Service::class);
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
 }

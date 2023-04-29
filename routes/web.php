@@ -25,6 +25,11 @@ Route::post('/store', [App\Http\Controllers\ServiceController::class, 'store'])-
 Route::get('/jobs/{job}/pdf', function (Job $job){
     $dompdf = new Dompdf();
 
+    // Eager load the related Service model
+    $job->load('service');
+    $job->load('service.department');
+    $job->load('user');
+
     // Pass data to the view and render
     $data = ['job' => $job];
     $html = view('job-details', $data)->render();

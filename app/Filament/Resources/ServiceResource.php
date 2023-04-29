@@ -29,7 +29,7 @@ class ServiceResource extends Resource
         return $form
             ->schema([
                 Card::make()->schema([
-                    Forms\Components\TextInput::make('department')
+                    Forms\Components\TextInput::make('department_id')
                         ->label('Users Department ID')
                         ->required()
                         ->default(

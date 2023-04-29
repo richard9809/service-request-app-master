@@ -28,7 +28,7 @@ class ListServices extends ListRecords
 
         $query = Service::query()
             ->leftJoin('users', 'services.user', '=', 'users.id')
-            ->leftJoin('departments', 'services.department', '=', 'departments.id')
+            ->leftJoin('departments', 'services.department_id', '=', 'departments.id')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->select('services.*', 'users.name as user', 'departments.name as department');
 
