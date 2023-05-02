@@ -47,7 +47,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="ministry" class="form-label">Ministry</label>
-                                    <select id="ministry" class="form-control" name="department" required>
+                                    <select id="ministry" class="form-control" name="department_id" required>
                                         <option value="">Choose Ministry...</option>
                                         @foreach($departments as $department)
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
@@ -72,7 +72,7 @@
         
                                 <div class="col-md-6 mt-2">
                                     <label for="user" class="form-label">ICT Officer</label>
-                                    <select name="user" id="user" class="form-control" required>
+                                    <select name="user_id" id="user" class="form-control" required>
                                         <option value="">Choose...</option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->name }}</option>

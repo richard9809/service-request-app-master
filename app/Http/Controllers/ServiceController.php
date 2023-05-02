@@ -27,13 +27,13 @@ class ServiceController extends Controller
     {
         // Validate the form data
         $validatedData = $request->validate([
-            'department' => 'required',
+            'department_id' => 'required',
             'reportedBy' => 'required',
             'telephone' => 'required',
             'designation' => 'required',
             'fault' => 'required',
             'description' => 'required',
-            'user' => 'required'
+            'user_id' => 'required'
         ]);
 
 
@@ -41,7 +41,7 @@ class ServiceController extends Controller
         $service = Service::create($validatedData);
 
         // Redirect to the Equipment Request index page with a success message
-        return redirect()->route('welcome')->with('success', 'Equipment request created successfully.');
+        return redirect()->route('welcome')->with('success', 'Ticket sent successfully.');
     }
 
 }
