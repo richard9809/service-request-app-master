@@ -5,7 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\Pages\CreateUser;
 use App\Models\User;
-use Filament\Forms;
+use App\Models\Department;
+use App\Models\Role;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -48,6 +49,10 @@ class UserResource extends Resource
                         ->dehydrated(fn ($state) => filled($state))
                         ->required(fn (Page $livewire) => $livewire instanceof CreateUser)
                         ->maxLength(255),
+                    Select::make('department_id')
+                        ->label('Ministry Located')
+                        ->options(Department::all()->pluck('name', 'id'))
+                        ->searchable(),
                     Select::make('roles')
                         ->multiple()
                         ->relationship('roles', 'name')

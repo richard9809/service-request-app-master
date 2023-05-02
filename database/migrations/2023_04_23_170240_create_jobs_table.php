@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('model');
             $table->text('summary');
             $table->text('remarks');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('service_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained('services')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

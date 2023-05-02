@@ -27,15 +27,15 @@ class ListServices extends ListRecords
         $user = Auth::user();
 
         $query = Service::query()
-            ->leftJoin('users', 'services.user', '=', 'users.id')
+            ->leftJoin('users', 'services.user_id', '=', 'users.id')
             ->leftJoin('departments', 'services.department_id', '=', 'departments.id')
             ->leftJoin('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->select('services.*', 'users.name as user', 'departments.name as department');
+            ->select('services.*', 'users.name as user', 'departments.name as department')
+            ->latest();
 
         if($user->hasRole('User')){
             $query->where('model_has_roles.role_id', '=', 3)
-                ->where('services.user', $user->id)
-                ->latest();
+                ->where('services.user_id', $user->id);
         }
 
         return $query;
